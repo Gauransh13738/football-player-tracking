@@ -1,0 +1,62 @@
+When i saw this text drop in my mail about a sports-vision player tracking assignment , I was immediately drawn to it since im a massive football fan and also an avid learner of Machine Learning and Computer Vision so i took this assignment with only intentions to learn Sports Vision and Video Analysis Using OpenCV and Yolo
+
+Initial Thoughts - 
+Upon opening the video to be analysed , I found it to be the 2024 Community Shield between Manchester City and Manchester United and the clip was Alejandro Garnacho's goal in the 82nd minute. Watching it ,  i realised that this was a classic object detection and video tracking problem.
+Therefore ,  I immediately got to work on using open-source LLMs like ChatGPT and Claude not to blatantly copy the code , but to actually learn how the solution can be made since I am extremely naive to Sports Vision.
+I also researched on some Youtube videos to find out more about handling Video Inputs and Player Tracking from youtubes like Rob Mulla ( Video Inputs ) , CodeBasics ( YOLO and how it is applied for object detection) and some documentation from DeepSort and pytorch to learn more about Re-Identification ( on Claude.ai's advice and checking open source forums)
+After researching for 2 days , i finally got to coding and the approaches I used are :-
+
+My Approaches :-
+
+1) Approach 1 -> Input the video , load the model and try the solution frame-by-frame
+  - So firstly , i downloaded the model , setup a project directory with a virtual environment and downloaded all the needed modules ( openCV , ultralytics) and make bounding boxes using it.
+  - While i did manage to get the model to only recongnize players on the field , I immediately ran into challenges :
+
+  > Challenges I faced using Approach 1 :
+    - The bounding boxes were too flickery and would often detect the referee and the corner flag ball as players. 
+    - The ID's kept changing after every frame (not even after changes in camera feed).
+
+
+
+2) Approach 2 -> Add filters to check for upper bounds of bounding boxes and adding minimum thresholds for bounding boxes to remove the accidental ball detections.
+ - So after reaching a fairly obvious hurdle in Approach 1 , I added constraints for bounding box sizes and also added filter checkers that checked the jersey colours and didnt make bounding boxes for referees.
+ - While this immediately worked , I still ran into a few issues :
+
+  > Challenges I faced using Approach 2:
+    - ID assignments to players were still not consistent and would change after a few frames
+    - The bounding boxes were not consistent and would keep flickering and giving multiple ID assignments to the same player due to the formation of multiple bounding boxes.
+
+
+
+3) Approach 3 -> Employ the use of DeepSort and Re-ID from PyTorch for consistent ID assignments
+  - After Approach 2 , I employed the use of DeepSort and Re-ID from PyTorch to add consistent bounding boxes and consistent ID's to players.
+  - While i immediately got consistent player ID assignments and consistent singular bounding boxes , I ran into visual issues.
+  
+  > Challenges I faced using Approach 3 :
+    - The boxes were way too large and interfering with other boxes , making it difficult to find the specific bounding boxes for players.
+
+
+4) Approach 4 -> Try to find the best of both worlds from Approach 2 and Approach 3
+
+  - After Approach 3 , I tried to feed YOLO's bounding boxes into DeepSort and only use DeepSort and Re-ID to make sure the ID assignments remain consistent throughout.
+  - However , i did not manage to find a common ground that would've 100% percent solved my problem
+  - Stuck between having proper bounding boxes and consistent ID's and singular ID assignments to players , I did not manage to figure out the solution
+  - I even tried taking the common area of YOLO and DeepSort's bounding boxes but it was to no avail.
+
+  > Challenges I faced using Approach 4 : 
+    - Bounding boxes would either be too large or would not form at all.
+    - ID assignments would only remain consistent for the extremely large bounding boxes.
+
+
+Final solution provided : 
+I decided to stick to clean bounding boxes , sacrificing the extremely large bounding boxes that had good consistent ID assignments.
+Although ,  I believe that even if i shared the DeepSort solution that atleast had consistent ID assignments , it would be equally far from the ideal solution.
+
+
+What i plan to complete this solution : 
+- I will dive deeper into the actual inner workings of DeepSort and YOLO and find out some common anomalies that can be used to bring about the ideal solution.
+- I would also work on similar projects and apply the approaches i used here there to see if it's viable.
+
+
+
+    
